@@ -59,7 +59,7 @@ local Button = MainTab:CreateButton({
 
 local Button = MainTab:CreateButton({
     Name = "Infinite Jump",
-    Callback = funtion()
+    Callback = function()
     local InfiniteJumpEnabled = true
 game:GetService("UserInputService").JumpRequest:connect(function()
 	if InfiniteJumpEnabled then
