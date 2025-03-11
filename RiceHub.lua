@@ -18,7 +18,7 @@ local Window = Rayfield:CreateWindow({
    Discord = {
       Enabled = true, 
       Invite = "xGHaPN5ssP",
-      RememberJoins = true 
+      RememberJoins = false 
    },
 
    KeySystem = false, 
@@ -78,6 +78,12 @@ end)
    end,
 })
 
+local Button = MainTab:CreateButton({
+	Name = "Super Rings V4 (use in Natual DS)",
+	Callback = function()
+	loadstring(game:HttpGet("https://rawscripts.net/raw/Natural-Disaster-Survival-Super-Rings-Parts-V4-By-Lukas-24409"))()
+		end,
+	})
 
 local MainSection = MainTab:CreateSection("Admin")
 
