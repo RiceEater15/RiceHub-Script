@@ -21,15 +21,15 @@ local Window = Rayfield:CreateWindow({
       RememberJoins = false 
    },
 
-   KeySystem = false, 
+   KeySystem = true, 
    KeySettings = {
-      Title = "Untitled",
+      Title = "RiceHub Universal Scripts | Key System",
       Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided", 
+      Note = "Discord Server", 
       FileName = "Key", 
       SaveKey = true,
       GrabKeyFromSite = false, 
-      Key = {"Hello"} 
+      Key = {"MildIsSoHot"} 
    }
 })
 
