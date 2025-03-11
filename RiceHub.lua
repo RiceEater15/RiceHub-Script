@@ -99,15 +99,22 @@ humanoid.JumpPower = jumpPower
    end,
 })
 
-local FischTab = Window:CreateTab("Fisch", 4483362458 ) -- Title, Image
-local FischSection = FischTab:CreateSection("Hubs")
+local HubsTab = Window:CreateTab("Hubs", 4483362458 ) -- Title, Image
+local HubsSection = HubsTab:CreateSection("Fisch")
 
-local Button = FischTab:CreateButton({
+local Button = HubsTab:CreateButton({
    Name = "SpeedX Hub",
    Callback = function()
    loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/SpeedHubX5.23.lua"))()
    end,
 })
+
+local Button = HubsTab:CreateButton({
+      Name = "Vixie Hub",
+      Callback = function()
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/ProjektEta/Vixie.lua/refs/heads/main/Loader.lua"))()
+      end,
+   })
 
 
          
