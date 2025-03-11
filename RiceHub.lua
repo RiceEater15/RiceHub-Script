@@ -102,7 +102,7 @@ local Button = MainTab:CreateButton({
     end,
 })
 
-local MainSection = MainTab:CreateSection("Movement")
+local MainSection = MainTab:CreateSection("Sliders")
 
 local Slider = MainTab:CreateSlider({
    Name = "Walkspeed Changer",
@@ -131,6 +131,18 @@ local humanoid = player.Character:WaitForChild("Humanoid")
 local jumpPower = (Value) 
 humanoid.JumpPower = jumpPower 
 
+   end,
+})
+
+local Slider = MainTab:CreateSlider({
+   Name = "Hitbox",
+   Range = {0, 15},
+   Increment = 1,
+   Suffix = "Hitbox",
+   CurrentValue = 2,
+   Flag = "Slider1", 
+   Callback = function(Value)
+  _G.HeadSize = (Value) _G.Disabled = true game:GetService('RunService').RenderStepped:connect(function() if _G.Disabled then for i,v in next, game:GetService('Players'):GetPlayers() do if v.Name ~= game:GetService('Players').LocalPlayer.Name then pcall(function() v.Character.Head.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize) v.Character.Head.Transparency = 1 v.Character.Head.BrickColor = BrickColor.new("Red") v.Character.Head.Material = "Neon" v.Character.Head.CanCollide = false v.Character.Head.Massless = true end) end end end end)
    end,
 })
 
