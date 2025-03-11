@@ -57,6 +57,18 @@ local Button = MainTab:CreateButton({
    end,
 })
 
+local Slider = Tab:CreateSlider({
+   Name = "Walkspeed Changer",
+   Range = {0, 150},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 15,
+   Flag = "Slider1",
+   Callback = function(Value)
+   		game.Players.LocalPlayer.Character.Humanoid.Walkspeed = (Value)
+   end,
+})
+
 local MainSection = MainTab:CreateSection("Admin")
 
 local Button = MainTab:CreateButton({
