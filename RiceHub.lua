@@ -57,6 +57,16 @@ local Button = MainTab:CreateButton({
    end,
 })
 
+
+local MainSection = MainTab:CreateSection("Admin")
+
+local Button = MainTab:CreateButton({
+    Name = "Infinite Yield",
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
+    end,
+})
+
 local Slider = MainTab:CreateSlider({
    Name = "Walkspeed Changer",
    Range = {0, 150},
@@ -67,13 +77,4 @@ local Slider = MainTab:CreateSlider({
    Callback = function(Value)
    		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
-})
-
-local MainSection = MainTab:CreateSection("Admin")
-
-local Button = MainTab:CreateButton({
-    Name = "Infinite Yield",
-    Callback = function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
-    end,
 })
