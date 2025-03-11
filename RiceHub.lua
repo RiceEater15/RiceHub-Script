@@ -89,7 +89,13 @@ local Slider = MainTab:CreateSlider({
    CurrentValue = 15,
    Flag = "Slider1",
    Callback = function(Value)
-   		game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
+   		
+
+local player = game.Players.LocalPlayer 
+local humanoid = player.Character:WaitForChild("Humanoid") 
+local jumpPower = (Value) 
+humanoid.JumpPower = jumpPower 
+
    end,
 })
 
