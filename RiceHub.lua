@@ -16,8 +16,8 @@ local Window = Rayfield:CreateWindow({
    },
 
    Discord = {
-      Enabled = false, 
-      Invite = "noinvitelink",
+      Enabled = true, 
+      Invite = "xGHaPN5ssP",
       RememberJoins = true 
    },
 
@@ -78,16 +78,6 @@ end)
    end,
 })
 
-local Button = MainTab:CreateButton({
-		Name = "Delete All GUIs"
-		Callback = function()
-local player = game.Players.LocalPlayer
-player:WaitForChild("PlayerGui")
-for _, guiObject in pairs(player.PlayerGui:GetChildren()) do
-    guiObject:Destroy()
-end
-		end,
-	})
 
 local MainSection = MainTab:CreateSection("Admin")
 
