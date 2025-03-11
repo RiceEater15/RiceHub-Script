@@ -67,6 +67,8 @@ local Button = MainTab:CreateButton({
     end,
 })
 
+local MainSection = MainTab:CreateSection("Sliders")
+
 local Slider = MainTab:CreateSlider({
    Name = "Walkspeed Changer",
    Range = {0, 150},
@@ -78,3 +80,16 @@ local Slider = MainTab:CreateSlider({
    		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
 })
+
+local Slider = MainTab:CreateSlider({
+   Name = "JumpPower Changer",
+   Range = {0, 150},
+   Increment = 1,
+   Suffix = "JumpPower",
+   CurrentValue = 15,
+   Flag = "Slider1",
+   Callback = function(Value)
+   		game.Players.LocalPlayer.Character.Humanoid.JumpPower = (Value)
+   end,
+})
+
