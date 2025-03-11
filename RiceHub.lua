@@ -98,3 +98,13 @@ humanoid.JumpPower = jumpPower
 
    end,
 })
+
+local FischTab = Window:CreateTab("Fisch", 4483362458)
+local FischSection = FischTab:Createsection("Hubs (KEY FREE)")
+
+local Button = FischTab:CreateButton({
+      Name = "SpeedX Hub",
+      Callback = function()
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+      end,
+   })
