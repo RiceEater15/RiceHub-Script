@@ -57,7 +57,7 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-local Slider = Tab:CreateSlider({
+local Slider = MainTab:CreateSlider({
    Name = "Walkspeed Changer",
    Range = {0, 150},
    Increment = 1,
