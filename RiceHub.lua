@@ -98,7 +98,7 @@ local Toggle = MainTab:CreateToggle({
    Callback = function(Value)
        if Value then
            _G.HeadSize = 7
-           _G.Disabled = true
+           _G.Disabled = (Value)
 
            game:GetService('RunService').RenderStepped:connect(function()
                if _G.Disabled then
