@@ -142,49 +142,22 @@ local Slider = MainTab:CreateSlider({
    CurrentValue = 2,
    Flag = "Slider1", 
    Callback = function(Value)
-  _G.HumanoidSize = (Value)  
-_G.Disabled = true  
+_G.HeadSize = (Value)
+_G.Disabled = true
+
 game:GetService('RunService').RenderStepped:connect(function()
     if _G.Disabled then
         for _, player in next, game:GetService('Players'):GetPlayers() do
             if player.Name ~= game:GetService('Players').LocalPlayer.Name then
                 pcall(function()
-                    local character = player.Character
-                    if character then
-                        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-                        local head = character:FindFirstChild("Head")
-                        local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
-                        local leftLeg = character:FindFirstChild("LeftLeg") or character:FindFirstChild("LeftLowerLeg")
-                        local rightLeg = character:FindFirstChild("RightLeg") or character:FindFirstChild("RightLowerLeg")
-                        local leftArm = character:FindFirstChild("LeftArm") or character:FindFirstChild("LeftLowerArm")
-                        local rightArm = character:FindFirstChild("RightArm") or character:FindFirstChild("RightLowerArm")
-                        
-                        if humanoidRootPart then
-                            humanoidRootPart.Size = humanoidRootPart.Size * _G.HumanoidSize
-                        end
-                        if head then
-                            head.Size = head.Size * _G.HumanoidSize
-                            head.Transparency = 1
-                            head.BrickColor = BrickColor.new("Red")
-                            head.Material = "Neon"
-                            head.CanCollide = false
-                            head.Massless = true
-                        end
-                        if torso then
-                            torso.Size = torso.Size * _G.HumanoidSize
-                        end
-                        if leftLeg then
-                            leftLeg.Size = leftLeg.Size * _G.HumanoidSize
-                        end
-                        if rightLeg then
-                            rightLeg.Size = rightLeg.Size * _G.HumanoidSize
-                        end
-                        if leftArm then
-                            leftArm.Size = leftArm.Size * _G.HumanoidSize
-                        end
-                        if rightArm then
-                            rightArm.Size = rightArm.Size * _G.HumanoidSize
-                        end
+                    local head = player.Character:FindFirstChild("Head")
+                    if head then
+                        head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                        head.Transparency = 1
+                        head.BrickColor = BrickColor.new("Red")
+                        head.Material = "Neon"
+                        head.CanCollide = false
+                        head.Massless = true
                     end
                 end, function(err)
                     print("Error: " .. err)
@@ -193,6 +166,7 @@ game:GetService('RunService').RenderStepped:connect(function()
         end
     end
 end)
+
 
    end,
 })
