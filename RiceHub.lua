@@ -52,7 +52,7 @@ local Button = MainTab:CreateButton({
 
 local Button = MainTab:CreateButton({
     Name = "Infinite Yield",
-    Callback = funtion()
+    Callback = function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
     end,
 })
