@@ -98,7 +98,7 @@ local MainSection = MainTab:CreateSection("Movement")
 
 local Slider = MainTab:CreateSlider({
    Name = "Walkspeed Changer",
-   Range = {0, 150},
+   Range = {0, 500},
    Increment = 1,
    Suffix = "Speed",
    CurrentValue = 15,
@@ -110,7 +110,7 @@ local Slider = MainTab:CreateSlider({
 
 local Slider = MainTab:CreateSlider({
    Name = "JumpPower Changer",
-   Range = {0, 150},
+   Range = {0, 500},
    Increment = 1,
    Suffix = "JumpPower",
    CurrentValue = 15,
