@@ -105,7 +105,7 @@ local FischSection = FischTab:CreateSection("Hubs")
 local Button = FischTab:CreateButton({
    Name = "SpeedX Hub",
    Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/SpeedHubX5.23.lua"))()
    end,
 })
 
