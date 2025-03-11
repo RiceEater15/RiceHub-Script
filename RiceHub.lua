@@ -65,7 +65,7 @@ local Slider = MainTab:CreateSlider({
    CurrentValue = 15,
    Flag = "Slider1",
    Callback = function(Value)
-   		game.Players.LocalPlayer.Character.Humanoid.Walkspeed = (Value)
+   		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (Value)
    end,
 })
 
