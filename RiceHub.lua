@@ -91,45 +91,7 @@ local Button = MainTab:CreateButton({
 	loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Esp-universal-28380"))()
 		end,
 	})
-local Toggle = MainTab:CreateToggle({
-   Name = "Hitbox Expander",
-   CurrentValue = false,
-   Flag = "Toggle1",
-   Callback = function(Value)
-      _G.HeadSize = 7
-_G.Disabled = false
 
-local Toggle = Tab:CreateToggle({
-   Name = "Head Size Toggle",
-   CurrentValue = _G.Disabled,
-   Flag = "Toggle1",
-   Callback = function(Value)
-       _G.Disabled = Value
-   end,
-})
-
-game:GetService('RunService').RenderStepped:connect(function()
-    if _G.Disabled then
-        for _, player in next, game:GetService('Players'):GetPlayers() do
-            if player.Name ~= game:GetService('Players').LocalPlayer.Name then
-                pcall(function()
-                    local head = player.Character:FindFirstChild("Head")
-                    if head then
-                        head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-                        head.Transparency = 1
-                        head.BrickColor = BrickColor.new("Red")
-                        head.Material = "Neon"
-                        head.CanCollide = false
-                        head.Massless = true
-                    end
-                end, function(err)
-                    print("Error: " .. err)
-                end)
-            end
-        end
-    end
-end)
-		})
 
 
 local MainSection = MainTab:CreateSection("Admin")
