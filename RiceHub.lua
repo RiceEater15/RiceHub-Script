@@ -46,7 +46,7 @@ loadstring(game:HttpGet("https://pastefy.app/M0N30XXG/raw"))();
 local Button = MainTab:CreateButton({
    Name = "Hitbox Expander",
    Callback = function()
-   loadstring(game:HttpGet("https://scriptblox.com/raw/Combat-Warriors-ranged-hitbox-expander-10430"))()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
    end,
 })
 
