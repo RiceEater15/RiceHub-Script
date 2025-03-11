@@ -49,6 +49,14 @@ local Button = MainTab:CreateButton({
    loadstring(game:HttpGet("https://scriptblox.com/raw/Combat-Warriors-ranged-hitbox-expander-10430"))()
    end,
 })
+
+local Button = MainTab:CreateButton({
+   Name = "Zero Gravity",
+   Callback = function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/Bac0nHck/Scripts/refs/heads/main/zerogravity"))()
+   end,
+})
+
 local MainSection = MainTab:CreateSection("Admin")
 
 local Button = MainTab:CreateButton({
