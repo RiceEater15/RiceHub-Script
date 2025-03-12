@@ -139,9 +139,9 @@ local Toggle = MainTab:CreateToggle({
    CurrentValue = false,
    Flag = "Toggle1",
    Callback = function(Value)
-      if Value == "true" then
+      if Value == true then
          loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
-      elseif Value == "false" then
+      elseif Value == false then
          _G.HeadSize = 1.5
          _G.Disabled = true
 
