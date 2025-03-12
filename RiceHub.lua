@@ -43,12 +43,6 @@ loadstring(game:HttpGet("https://pastefy.app/M0N30XXG/raw"))();
    end,
 })
 
-local Button = MainTab:CreateButton({
-   Name = "Hitbox Expander",
-   Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
-   end,
-})
 
 local Button = MainTab:CreateButton({
    Name = "Zero Gravity",
@@ -92,7 +86,41 @@ local Button = MainTab:CreateButton({
 		end,
 	})
 
+local Toggle = MainTab:CreateToggle({
+   Name = "Hitbox Expander",
+   CurrentValue = false,
+   Flag = "Toggle1",
+   Callback = function(Value)
+      if Value == true then
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
+      elseif Value == false then
+         _G.HeadSize = 1
+         _G.Disabled = true
 
+         game:GetService('RunService').RenderStepped:connect(function()
+            if _G.Disabled then
+                for _, player in next, game:GetService('Players'):GetPlayers() do
+                    if player.Name ~= game:GetService('Players').LocalPlayer.Name then
+                        pcall(function()
+                            local head = player.Character:FindFirstChild("Head")
+                            if head then
+                                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                                head.Transparency = 0
+                                head.BrickColor = BrickColor.new("Red")
+                                head.Material = "Neon"
+                                head.CanCollide = false
+                                head.Massless = true
+                            end
+                        end, function(err)
+                            print("Error: " .. err)
+                        end)
+                    end
+                end
+            end
+         end)
+      end
+   end,
+})
 
 local MainSection = MainTab:CreateSection("Admin")
 
@@ -134,41 +162,7 @@ humanoid.JumpPower = jumpPower
 
    end,
 })
-local Toggle = MainTab:CreateToggle({
-   Name = "Toggle Example",
-   CurrentValue = false,
-   Flag = "Toggle1",
-   Callback = function(Value)
-      if Value == true then
-         loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
-      elseif Value == false then
-         _G.HeadSize = 1
-         _G.Disabled = true
 
-         game:GetService('RunService').RenderStepped:connect(function()
-            if _G.Disabled then
-                for _, player in next, game:GetService('Players'):GetPlayers() do
-                    if player.Name ~= game:GetService('Players').LocalPlayer.Name then
-                        pcall(function()
-                            local head = player.Character:FindFirstChild("Head")
-                            if head then
-                                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-                                head.Transparency = 0
-                                head.BrickColor = BrickColor.new("Red")
-                                head.Material = "Neon"
-                                head.CanCollide = false
-                                head.Massless = true
-                            end
-                        end, function(err)
-                            print("Error: " .. err)
-                        end)
-                    end
-                end
-            end
-         end)
-      end
-   end,
-})
 
 
 
