@@ -94,9 +94,10 @@ local Toggle = MainTab:CreateToggle({
       if Value == true then
          loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/HitboxExpander.lua"))()
       elseif Value == false then
-         _G.HeadSize = 1
+         _G.HeadSize = 1.5
          _G.Disabled = true
 
+         local originalHeadSize = Vector3.new(2, 2, 1)
          game:GetService('RunService').RenderStepped:connect(function()
             if _G.Disabled then
                 for _, player in next, game:GetService('Players'):GetPlayers() do
@@ -104,7 +105,7 @@ local Toggle = MainTab:CreateToggle({
                         pcall(function()
                             local head = player.Character:FindFirstChild("Head")
                             if head then
-                                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                                head.Size = originalHeadSize
                                 head.Transparency = 0
                                 head.BrickColor = BrickColor.new("Red")
                                 head.Material = "Neon"
@@ -121,6 +122,7 @@ local Toggle = MainTab:CreateToggle({
       end
    end,
 })
+
 
 local MainSection = MainTab:CreateSection("Admin")
 
