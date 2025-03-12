@@ -1,6 +1,6 @@
 local ESPSystem = {}
+
 ESPSystem.Config = {
-    -- Appearance settings
     NameDisplay = {
         Enabled = true,
         StudsOffset = Vector3.new(0, 2, 0),
@@ -9,31 +9,33 @@ ESPSystem.Config = {
         ShowDistance = true,
         ShowHealth = true
     },
+    
     Highlight = {
         Enabled = true,
         FillTransparency = 0.5,
         OutlineTransparency = 0,
-        TeamColors = true, -- Use team colors if available
-        FriendColor = Color3.new(0, 1, 0),
-        EnemyColor = Color3.new(1, 0, 0),
-        NeutralColor = Color3.new(1, 1, 0)
+        TeamColors = true,
+        FriendColor = Color3.fromRGB(0, 255, 0),
+        EnemyColor = Color3.fromRGB(255, 0, 0),
+        NeutralColor = Color3.fromRGB(255, 255, 0)
     },
-    -- Performance settings
-    UpdateRate = 0.5, -- Update ESP info (like distance) every 0.5 seconds
-    MaxRenderDistance = 1000, -- Don't render ESP for players beyond this distance
-    -- Targets
+    
+    UpdateRate = 0.1,
+    MaxRenderDistance = 1000,
+    
     IgnoreLocalPlayer = true,
     OnlyShowEnemies = false
 }
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
-
-local activePlayers = {}
+local activePlayerESP = {}
 local updateConnections = {}
-
+local lastUpdate = os.clock()
 
 local function getDistanceFromCamera(position)
     return (Camera.CFrame.Position - position).Magnitude
@@ -57,7 +59,7 @@ local function getColorForPlayer(player)
 end
 
 local function formatDistance(distance)
-    return math.floor(distance + 0.5) -- Round to nearest whole number
+    return math.floor(distance + 0.5)
 end
 
 local function getPlayerHealth(character)
@@ -71,7 +73,6 @@ local function getPlayerHealth(character)
     return nil
 end
 
-
 function ESPSystem.CreateESP(player)
     if player == LocalPlayer and ESPSystem.Config.IgnoreLocalPlayer then return end
     if ESPSystem.Config.OnlyShowEnemies and not isPlayerEnemy(player) then return end
@@ -79,12 +80,10 @@ function ESPSystem.CreateESP(player)
     local character = player.Character
     if not character then return end
     
-    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
     local head = character:FindFirstChild("Head")
     if not head then return end
     
-
-    activePlayers[player.Name] = {
+    activePlayerESP[player.Name] = {
         Player = player,
         Character = character,
         ESP = {
@@ -98,12 +97,11 @@ function ESPSystem.CreateESP(player)
         }
     }
     
-    local playerData = activePlayers[player.Name]
+    local playerData = activePlayerESP[player.Name]
     
-
     if ESPSystem.Config.NameDisplay.Enabled then
         local billboard = Instance.new("BillboardGui")
-        billboard.Name = "ESPBillboard"
+        billboard.Name = "ESPBillboard_" .. player.Name
         billboard.Adornee = head
         billboard.Size = UDim2.new(0, 200, 0, 50)
         billboard.StudsOffset = ESPSystem.Config.NameDisplay.StudsOffset
@@ -126,11 +124,10 @@ function ESPSystem.CreateESP(player)
         playerData.ESP.Billboard = billboard
         playerData.ESP.TextLabel = textLabel
     end
-       
-
+    
     if ESPSystem.Config.Highlight.Enabled then
         local highlight = Instance.new("Highlight")
-        highlight.Name = "ESPHighlight"
+        highlight.Name = "ESPHighlight_" .. player.Name
         highlight.FillTransparency = ESPSystem.Config.Highlight.FillTransparency
         highlight.OutlineTransparency = ESPSystem.Config.Highlight.OutlineTransparency
         highlight.FillColor = getColorForPlayer(player)
@@ -139,16 +136,20 @@ function ESPSystem.CreateESP(player)
         
         playerData.ESP.Highlight = highlight
     end
-
-   
+    
     ESPSystem.UpdatePlayerESP(player)
+    
     updateConnections[player.Name] = RunService.Heartbeat:Connect(function()
-        ESPSystem.UpdatePlayerESP(player)
+        local currentTime = os.clock()
+        if currentTime - lastUpdate >= ESPSystem.Config.UpdateRate then
+            lastUpdate = currentTime
+            ESPSystem.UpdatePlayerESP(player)
+        end
     end)
 end
 
 function ESPSystem.UpdatePlayerESP(player)
-    local playerData = activePlayers[player.Name]
+    local playerData = activePlayerESP[player.Name]
     if not playerData then return end
     
     local character = player.Character
@@ -157,17 +158,12 @@ function ESPSystem.UpdatePlayerESP(player)
     local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
     if not humanoidRootPart then return end
     
-    -- Update distance  deta again not rmeove
     local distance = getDistanceFromCamera(humanoidRootPart.Position)
     playerData.Data.Distance = distance
-    
-    -- Update health beta --- DNOT REMOVE NOTE
     playerData.Data.Health = getPlayerHealth(character) or playerData.Data.Health
-    
     
     local isVisible = distance <= ESPSystem.Config.MaxRenderDistance
     
-  
     if playerData.ESP.TextLabel then
         local displayText = player.Name
         
@@ -180,18 +176,14 @@ function ESPSystem.UpdatePlayerESP(player)
             displayText = displayText .. "\n❤️ " .. healthPercentage .. "%"
         end
         
-      
-        
-        -- Update color in case team changed
+        playerData.ESP.TextLabel.Text = displayText
         playerData.ESP.TextLabel.TextColor3 = getColorForPlayer(player)
         
-
         if playerData.ESP.Billboard then
             playerData.ESP.Billboard.Enabled = isVisible
         end
     end
     
-
     if playerData.ESP.Highlight then
         playerData.ESP.Highlight.FillColor = getColorForPlayer(player)
         playerData.ESP.Highlight.Enabled = isVisible
@@ -199,15 +191,14 @@ function ESPSystem.UpdatePlayerESP(player)
 end
 
 function ESPSystem.RemoveESP(player)
-    local playerData = activePlayers[player.Name]
+    local playerData = activePlayerESP[player.Name]
     if not playerData then return end
     
-  
     if updateConnections[player.Name] then
         updateConnections[player.Name]:Disconnect()
         updateConnections[player.Name] = nil
     end
-
+    
     if playerData.ESP.Billboard then
         playerData.ESP.Billboard:Destroy()
     end
@@ -216,15 +207,13 @@ function ESPSystem.RemoveESP(player)
         playerData.ESP.Highlight:Destroy()
     end
     
-
-    activePlayers[player.Name] = nil
+    activePlayerESP[player.Name] = nil
 end
 
 function ESPSystem.TrackPlayer(player)
-    
     player.CharacterAdded:Connect(function(character)
         ESPSystem.RemoveESP(player) 
-        task.wait(0.5) 
+        task.wait(0.5)
         ESPSystem.CreateESP(player)
     end)
     
@@ -232,7 +221,6 @@ function ESPSystem.TrackPlayer(player)
         ESPSystem.RemoveESP(player)
     end)
     
-
     if player.Character then
         task.spawn(function()
             ESPSystem.CreateESP(player)
@@ -240,18 +228,14 @@ function ESPSystem.TrackPlayer(player)
     end
 end
 
-
 function ESPSystem.Initialize()
-  
     Players.PlayerAdded:Connect(function(player)
         ESPSystem.TrackPlayer(player)
     end)
     
-
     Players.PlayerRemoving:Connect(function(player)
         ESPSystem.RemoveESP(player)
     end)
-    
     
     for _, player in pairs(Players:GetPlayers()) do
         task.spawn(function()
@@ -259,13 +243,11 @@ function ESPSystem.Initialize()
         end)
     end
     
-
     if game:GetService("Teams") then
         for _, player in pairs(Players:GetPlayers()) do
             player:GetPropertyChangedSignal("Team"):Connect(function()
-                local playerData = activePlayers[player.Name]
+                local playerData = activePlayerESP[player.Name]
                 if playerData then
-                    -- Update ESP colors when team changes
                     if playerData.ESP.TextLabel then
                         playerData.ESP.TextLabel.TextColor3 = getColorForPlayer(player)
                     end
@@ -274,7 +256,6 @@ function ESPSystem.Initialize()
                         playerData.ESP.Highlight.FillColor = getColorForPlayer(player)
                     end
                     
-                 
                     if ESPSystem.Config.OnlyShowEnemies then
                         if isPlayerEnemy(player) then
                             if not playerData.ESP.Billboard and not playerData.ESP.Highlight then
@@ -289,22 +270,26 @@ function ESPSystem.Initialize()
         end
     end
     
-    print("ESP System initialized!")
+    UserInputService.InputBegan:Connect(function(input)
+        if input.KeyCode == Enum.KeyCode.RightAlt then
+            ESPSystem.Toggle()
+        end
+    end)
+    
+    print("ESP System v1.2 initialized")
 end
-
 
 function ESPSystem.Toggle(enabled)
     if enabled == nil then
-        -- Toggle all ESP
         local anyActive = false
-        for _, playerData in pairs(activePlayers) do
+        for _, playerData in pairs(activePlayerESP) do
             if playerData.ESP.Billboard and playerData.ESP.Billboard.Enabled then
                 anyActive = true
                 break
             end
         end
         
-        for _, playerData in pairs(activePlayers) do
+        for _, playerData in pairs(activePlayerESP) do
             if playerData.ESP.Billboard then
                 playerData.ESP.Billboard.Enabled = not anyActive
             end
@@ -312,9 +297,10 @@ function ESPSystem.Toggle(enabled)
                 playerData.ESP.Highlight.Enabled = not anyActive
             end
         end
+        
+        print("ESP " .. (anyActive and "disabled" or "enabled"))
     else
-        -- Set specific state
-        for _, playerData in pairs(activePlayers) do
+        for _, playerData in pairs(activePlayerESP) do
             if playerData.ESP.Billboard then
                 playerData.ESP.Billboard.Enabled = enabled
             end
@@ -322,11 +308,11 @@ function ESPSystem.Toggle(enabled)
                 playerData.ESP.Highlight.Enabled = enabled
             end
         end
+        
+        print("ESP " .. (enabled and "enabled" or "disabled"))
     end
 end
 
-
 ESPSystem.Initialize()
-
 
 return ESPSystem
