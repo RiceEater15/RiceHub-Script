@@ -189,6 +189,14 @@ local Button = HubsTab:CreateButton({
 local ArsenalTab = Window:CreateTab("Arsenal", 448362458 )
 local ArsenalSection = ArsenalTab:CreateSection("Arsenal")
 
+local Button = ArsenalTab:CreateButton({
+		Name = "Silent AimBot"
+		Callback = function()
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ArsenalAimBot.lua"))()
+      end,
+   })
+
+
 
 
 
