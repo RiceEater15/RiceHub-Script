@@ -4,6 +4,7 @@ local Window = Rayfield:CreateWindow({
    Icon = 0, 
    LoadingTitle = "RiceHub Universal",
    LoadingSubtitle = "by RiceHub Team",
+
    Theme = "Default", 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false, 
@@ -642,4 +643,3 @@ DroppedGunBGUI.AlwaysOnTop = true
 DroppedGunBGUI.Enabled = false
 DroppedGunBGUI.Parent = espContainer
 
-local G
