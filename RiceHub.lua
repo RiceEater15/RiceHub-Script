@@ -211,7 +211,10 @@ local Button = ArsenalTab:CreateButton({
 		end,
 	})
 
-
+local Button = ArsenalTab:CreateButton({
+	Name = "Firerate Mod",
+	Callback = function()
+		
 
 
 
