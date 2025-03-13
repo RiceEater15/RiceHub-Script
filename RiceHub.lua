@@ -203,7 +203,13 @@ local Button = ArsenalTab:CreateButton({
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenalinfammo.lua"))()
 		end,
 	})
-			
+
+local Button = ArsenalTab:CreateButton({
+   Name = "ESP+TEAMCHECK",
+   Callback = function()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ArsenalESP.lua"))()
+		end,
+	})
 
 
 
