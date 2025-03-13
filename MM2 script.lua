@@ -634,7 +634,6 @@ MurdererLabel.Text = "MURDERER"
 MurdererLabel.TextSize = 18
 MurdererLabel.Font = Enum.Font.SourceSansBold
 MurdererLabel.Parent = MurdererBGUI
-
 local DroppedGunBGUI = Instance.new("BillboardGui")
 DroppedGunBGUI.Name = "DroppedGunBGUI"
 DroppedGunBGUI.Size = UDim2.new(0, 100, 0, 50)
@@ -642,4 +641,386 @@ DroppedGunBGUI.StudsOffset = Vector3.new(0, 1, 0)
 DroppedGunBGUI.AlwaysOnTop = true
 DroppedGunBGUI.Enabled = false
 DroppedGunBGUI.Parent = espContainer
-
+local DroppedGunLabel = Instance.new("TextLabel")
+DroppedGunLabel.Name = "Label"
+DroppedGunLabel.Size = UDim2.new(1, 0, 1, 0)
+DroppedGunLabel.BackgroundTransparency = 1
+DroppedGunLabel.TextColor3 = Color3.fromRGB(0, 150, 255)
+DroppedGunLabel.Text = "DROPPED GUN"
+DroppedGunLabel.TextSize = 18
+DroppedGunLabel.Font = Enum.Font.SourceSansBold
+local DroppedGunLabel = Instance.new("TextLabel")
+DroppedGunLabel.Name = "Label"
+DroppedGunLabel.Size = UDim2.new(1, 0, 1, 0)
+DroppedGunLabel.BackgroundTransparency = 1
+DroppedGunLabel.TextColor3 = Color3.fromRGB(0, 150, 255)
+DroppedGunLabel.Text = "DROPPED GUN"
+DroppedGunLabel.TextSize = 18
+DroppedGunLabel.Font = Enum.Font.SourceSansBold
+DroppedGunLabel.Parent = DroppedGunBGUI
+local DropGunESPToggle = MM2Tab:CreateToggle({
+    Name = "Dropped Gun ESP",
+    CurrentValue = false,
+    Flag = "DroppedGunESP_Enabled",
+    Callback = function(Value)
+        gunDropESP = Value
+        if Value then
+            fu.notification("Dropped Gun ESP Enabled")
+            
+            workspace.ChildAdded:Connect(function(ch)
+                if ch.Name == "GunDrop" and gunDropESP then
+                    local DGBGUIClone = DroppedGunBGUI:Clone()
+                    DGBGUIClone.Name = "DGBGUIClone"
+                    DGBGUIClone.Adornee = ch
+                    DGBGUIClone.Enabled = true
+                    DGBGUIClone.Parent = _G.YARHM
+                    
+                    local highlight = Instance.new("Highlight")
+                    highlight.Name = "GunESP"
+                    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                    highlight.Adornee = ch
+                    highlight.FillColor = Color3.fromRGB(0, 150, 255)
+                    highlight.OutlineColor = Color3.fromRGB(0, 150, 255)
+                    highlight.FillTransparency = 0.5
+                    highlight.OutlineTransparency = 0
+                    highlight.Parent = espContainer
+                end
+            end)
+            
+            workspace.ChildRemoved:Connect(function(ch)
+                if ch.Name == "GunDrop" and gunDropESP then
+                    if _G.YARHM:FindFirstChild("DGBGUIClone") then
+                        _G.YARHM:FindFirstChild("DGBGUIClone"):Destroy()
+                    end
+                    for _, v in ipairs(espContainer:GetChildren()) do
+                        if v.Name == "GunESP" then
+                            v:Destroy()
+                        end
+                    end
+                end
+            end)
+        else
+            fu.notification("Dropped Gun ESP Disabled")
+            if _G.YARHM:FindFirstChild("DGBGUIClone") then
+                _G.YARHM:FindFirstChild("DGBGUIClone"):Destroy()
+            end
+            for _, v in ipairs(espContainer:GetChildren()) do
+                if v.Name == "GunESP" then
+                    v:Destroy()
+                end
+            end
+        end
+    end,
+})
+local TrapESPToggle = MM2Tab:CreateToggle({
+    Name = "Trap ESP",
+    CurrentValue = false,
+    Flag = "TrapESP_Enabled",
+    Callback = function(Value)
+        trapDetection = Value
+        if Value then
+            fu.notification("Trap ESP Enabled")
+            
+            trapESPConnection = RunService.RenderStepped:Connect(function()
+                if trapDetection then
+                    for _, v in pairs(workspace:GetDescendants()) do
+                        if v.Name == "Trap" and v:IsA("BasePart") then
+                            if not v:FindFirstChild("TrapESP") then
+                                local highlight = Instance.new("Highlight")
+                                highlight.Name = "TrapESP"
+                                highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                                highlight.Adornee = v
+                                highlight.FillColor = Color3.fromRGB(255, 0, 255)
+                                highlight.OutlineColor = Color3.fromRGB(255, 0, 255)
+                                highlight.FillTransparency = 0.5
+                                highlight.OutlineTransparency = 0
+                                highlight.Parent = espContainer
+                            end
+                        end
+                    end
+                end
+            end)
+        else
+            fu.notification("Trap ESP Disabled")
+            if trapESPConnection then
+                trapESPConnection:Disconnect()
+            end
+            for _, v in ipairs(espContainer:GetChildren()) do
+                if v.Name == "TrapESP" then
+                    v:Destroy()
+                end
+            end
+        end
+    end,
+})
+local AutoGrabToggle = MM2Tab:CreateToggle({
+    Name = "Auto Grab Gun",
+    CurrentValue = false,
+    Flag = "AutoGrab_Enabled",
+    Callback = function(Value)
+        autoGetDroppedGun = Value
+        if Value then
+            fu.notification("Auto Grab Gun Enabled")
+            
+            gunDropConnection = workspace.ChildAdded:Connect(function(ch)
+                if ch.Name == "GunDrop" and autoGetDroppedGun then
+                    if localplayer.Character and localplayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local oldPosition = localplayer.Character.HumanoidRootPart.CFrame
+                        localplayer.Character.HumanoidRootPart.CFrame = ch.CFrame
+                        wait(0.5)
+                        localplayer.Character.HumanoidRootPart.CFrame = oldPosition
+                    end
+                end
+            end)
+        else
+            fu.notification("Auto Grab Gun Disabled")
+            if gunDropConnection then
+                gunDropConnection:Disconnect()
+            end
+        end
+    end,
+})
+local RoleSimSection = MM2Tab:CreateSection("Role Simulation")
+local isSheriff = MM2Tab:CreateToggle({
+    Name = "Fake Sheriff",
+    CurrentValue = false,
+    Flag = "FakeSheriff_Enabled",
+    Callback = function(Value)
+        if Value then
+            if localplayer.Character and localplayer.Character:FindFirstChild("Knife") then
+                fu.notification("Cannot be sheriff while being murderer", Color3.fromRGB(255, 0, 0))
+                return
+            end
+            
+            local gun = Instance.new("Tool")
+            gun.Name = "Gun"
+            gun.TextureId = "rbxassetid://11554626152"
+            gun.ToolTip = "Sheriff's Gun"
+            
+            local handle = Instance.new("Part")
+            handle.Name = "Handle"
+            handle.Size = Vector3.new(0.2, 1, 0.2)
+            handle.Transparency = 1
+            handle.Parent = gun
+            
+            local gunModel = Instance.new("Model")
+            gunModel.Name = "GunModel"
+            gunModel.Parent = gun
+            
+            local pistol = Instance.new("Part")
+            pistol.Name = "Pistol"
+            pistol.Size = Vector3.new(0.25, 1, 2)
+            pistol.CFrame = handle.CFrame * CFrame.new(0, 0, -1)
+            pistol.BrickColor = BrickColor.new("Navy blue")
+            pistol.Material = Enum.Material.Metal
+            pistol.CanCollide = false
+            pistol.Parent = gunModel
+            
+            local weld = Instance.new("WeldConstraint")
+            weld.Part0 = handle
+            weld.Part1 = pistol
+            weld.Parent = handle
+            
+            gun.Parent = localplayer.Backpack
+            
+            fu.notification("Fake sheriff enabled - gun added to backpack", Color3.fromRGB(0, 150, 255))
+        else
+            if localplayer.Backpack:FindFirstChild("Gun") then
+                localplayer.Backpack:FindFirstChild("Gun"):Destroy()
+            end
+            if localplayer.Character and localplayer.Character:FindFirstChild("Gun") then
+                localplayer.Character:FindFirstChild("Gun"):Destroy()
+            end
+            fu.notification("Fake sheriff disabled", Color3.fromRGB(0, 150, 255))
+        end
+    end,
+})
+local isMurderer = MM2Tab:CreateToggle({
+    Name = "Fake Murderer",
+    CurrentValue = false,
+    Flag = "FakeMurderer_Enabled",
+    Callback = function(Value)
+        if Value then
+            if localplayer.Character and localplayer.Character:FindFirstChild("Gun") then
+                fu.notification("Cannot be murderer while being sheriff", Color3.fromRGB(255, 0, 0))
+                return
+            end
+            
+            local knife = Instance.new("Tool")
+            knife.Name = "Knife"
+            knife.TextureId = "rbxassetid://11554654141"
+            knife.ToolTip = "Murderer's Knife"
+            
+            local handle = Instance.new("Part")
+            handle.Name = "Handle"
+            handle.Size = Vector3.new(0.2, 1, 0.2)
+            handle.Transparency = 1
+            handle.Parent = knife
+            
+            local knifeModel = Instance.new("Model")
+            knifeModel.Name = "KnifeModel"
+            knifeModel.Parent = knife
+            
+            local blade = Instance.new("Part")
+            blade.Name = "Blade"
+            blade.Size = Vector3.new(0.1, 1.5, 0.5)
+            blade.CFrame = handle.CFrame * CFrame.new(0, 0.5, 0)
+            blade.BrickColor = BrickColor.new("Bright red")
+            blade.Material = Enum.Material.Metal
+            blade.CanCollide = false
+            blade.Parent = knifeModel
+            
+            local weld = Instance.new("WeldConstraint")
+            weld.Part0 = handle
+            weld.Part1 = blade
+            weld.Parent = handle
+            
+            knife.Parent = localplayer.Backpack
+            
+            fu.notification("Fake murderer enabled - knife added to backpack", Color3.fromRGB(255, 0, 0))
+        else
+            if localplayer.Backpack:FindFirstChild("Knife") then
+                localplayer.Backpack:FindFirstChild("Knife"):Destroy()
+            end
+            if localplayer.Character and localplayer.Character:FindFirstChild("Knife") then
+                localplayer.Character:FindFirstChild("Knife"):Destroy()
+            end
+            fu.notification("Fake murderer disabled", Color3.fromRGB(255, 0, 0))
+        end
+    end,
+})
+local GlitchSection = MM2Tab:CreateSection("Glitches & Map Exploits")
+local NoClipToggle = MM2Tab:CreateToggle({
+    Name = "NoClip",
+    CurrentValue = false,
+    Flag = "NoClip_Enabled",
+    Callback = function(Value)
+        if Value then
+            fu.notification("NoClip Enabled")
+            
+            noclipConnection = RunService.Stepped:Connect(function()
+                if localplayer.Character then
+                    for _, part in pairs(localplayer.Character:GetDescendants()) do
+                        if part:IsA("BasePart") and part.CanCollide then
+                            part.CanCollide = false
+                        end
+                    end
+                end
+            end)
+        else
+            fu.notification("NoClip Disabled")
+            if noclipConnection then
+                noclipConnection:Disconnect()
+            end
+            if localplayer.Character then
+                for _, part in pairs(localplayer.Character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.Name ~= "HumanoidRootPart" then
+                        part.CanCollide = true
+                    end
+                end
+            end
+        end
+    end,
+})
+local MapVotingSection = MM2Tab:CreateSection("Map Voting")
+local VoteForCurrentMapButton = MM2Tab:CreateButton({
+    Name = "Vote For Current Map",
+    Callback = function()
+        local voting = workspace:FindFirstChild("MapVoting")
+        if voting then
+            local maps = voting:FindFirstChild("Maps")
+            if maps then
+                for _, map in pairs(maps:GetChildren()) do
+                    if map:FindFirstChild("VoteButton") then
+                        firetouchinterest(localplayer.Character.HumanoidRootPart, map.VoteButton, 0)
+                        wait()
+                        firetouchinterest(localplayer.Character.HumanoidRootPart, map.VoteButton, 1)
+                        fu.notification("Voted for " .. map.Name)
+                        break
+                    end
+                end
+            else
+                fu.notification("No maps found to vote for")
+            end
+        else
+            fu.notification("Map voting is not active")
+        end
+    end,
+})
+local ServerHopSection = MM2Tab:CreateSection("Server")
+local ServerHopButton = MM2Tab:CreateButton({
+    Name = "Server Hop",
+    Callback = function()
+        local PlaceId = game.PlaceId
+        local TeleportService = game:GetService("TeleportService")
+        local Players = game:GetService("Players")
+        local HttpService = game:GetService("HttpService")
+        
+        local function ServerHop()
+            local function GetServers()
+                local Servers = {}
+                local CurrentCursor = ""
+                repeat
+                    local Response = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. PlaceId .. "/servers/Public?sortOrder=Asc&limit=100" .. (CurrentCursor ~= "" and "&cursor=" .. CurrentCursor or "")))
+                    for _, Server in ipairs(Response.data) do
+                        if Server.playing < Server.maxPlayers then
+                            table.insert(Servers, Server)
+                        end
+                    end
+                    CurrentCursor = Response.nextPageCursor
+                until not CurrentCursor
+                return Servers
+            end
+            
+            local Servers = GetServers()
+            if #Servers > 0 then
+                local RandomServer = Servers[math.random(1, #Servers)]
+                TeleportService:TeleportToPlaceInstance(PlaceId, RandomServer.id, Players.LocalPlayer)
+            else
+                fu.notification("No servers found")
+            end
+        end
+        
+        ServerHop()
+    end,
+})
+local InfoTab = Window:CreateTab("Info", nil)
+local InfoSection = InfoTab:CreateSection("Script Information")
+InfoTab:CreateParagraph({
+    Title = "RiceHub MM2 Universal",
+    Content = "Created by RiceHub Team\nVersion: 1.0.0\nLast Updated: March 2025\n\nJoin our Discord server for updates, bug reports, and more scripts!"
+})
+InfoTab:CreateButton({
+    Name = "Copy Discord Server Invite",
+    Callback = function()
+        setclipboard("https://discord.gg/xGHaPN5ssP")
+        fu.notification("Discord invite copied to clipboard!")
+    end,
+})
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall = newcclosure(function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+    
+    if method == "FireServer" or method == "InvokeServer" then
+        local callName = tostring(self)
+        if callName:find("Security") or callName:find("Ban") or callName:find("Report") then
+            return nil
+        end
+    end
+    
+    return oldNamecall(self, ...)
+end)
+setreadonly(mt, true)
+if isGameMM2() then
+    fu.notification("MM2 Script loaded successfully!", Color3.fromRGB(0, 255, 0), "✓")
+else
+    fu.notification("Script loaded in compatibility mode", Color3.fromRGB(255, 150, 0), "!")
+end
+RunService.RenderStepped:Connect(function()
+    for i, v in pairs(getconnections(game:GetService("ScriptContext").Error)) do
+        v:Disable()
+    end
+end)
