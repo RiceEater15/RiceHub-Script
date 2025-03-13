@@ -197,6 +197,14 @@ local Button = ArsenalTab:CreateButton({
    end,
 })
 
+local Button = ArsenalTab:CreateButton({
+   Name = "Inf Ammo",
+   Callback = function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenalinfammo.lua"))()
+		end,
+	})
+			
+
 
 
 
