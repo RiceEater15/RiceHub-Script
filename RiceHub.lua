@@ -193,21 +193,21 @@ local ArsenalSection = ArsenalTab:CreateSection("Arsenal")
 local Button = ArsenalTab:CreateButton({
    Name = "Silent Aimbot",
    Callback = function()
- loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ArsenalAimBot.lua"))()
+ loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenal/ArsenalAimBot.lua"))()
    end,
 })
 
 local Button = ArsenalTab:CreateButton({
    Name = "Inf Ammo",
    Callback = function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenalinfammo.lua"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenal/Arsenalinfammo.lua"))()
 		end,
 	})
 
 local Button = ArsenalTab:CreateButton({
    Name = "ESP+TEAMCHECK",
    Callback = function()
-       loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ArsenalESP.lua"))()
+       loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenal/ArsenalESP.lua"))()
 		end,
 	})
 
