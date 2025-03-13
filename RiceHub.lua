@@ -168,7 +168,7 @@ humanoid.JumpPower = jumpPower
 
 
 
-local HubsTab = Window:CreateTab("Hubs", 4483362458 ) -- Title, Image
+local HubsTab = Window:CreateTab("Fisch", 4483362458 ) -- Title, Image
 local HubsSection = HubsTab:CreateSection("Fisch")
 
 local Button = HubsTab:CreateButton({
