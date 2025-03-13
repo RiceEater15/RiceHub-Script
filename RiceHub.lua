@@ -214,7 +214,7 @@ local Button = ArsenalTab:CreateButton({
 local Button = ArsenalTab:CreateButton({
 	Name = "Firerate Mod",
 	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ArsenalFFRate.lua"))()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Arsenal/ArsenalFFRate.lua"))()
 		end,
 	})
 
