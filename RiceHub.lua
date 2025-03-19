@@ -27,7 +27,7 @@ local Window = Rayfield:CreateWindow({
       Subtitle = "Key System",
       Note = "Discord Server", 
       FileName = "Key", 
-      SaveKey = false,
+      SaveKey = true,
       GrabKeyFromSite = false, 
       Key = {"MildIsSoHot"} 
    }
