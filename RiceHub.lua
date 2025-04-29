@@ -21,7 +21,7 @@ local Window = Rayfield:CreateWindow({
       RememberJoins = false 
    },
 
-   KeySystem = true, 
+   KeySystem = false, 
    KeySettings = {
       Title = "RiceHub Universal Scripts | Key System",
       Subtitle = "Key System",
