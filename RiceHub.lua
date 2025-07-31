@@ -86,6 +86,13 @@ local Button = MainTab:CreateButton({
 		end,
 	})
 
+local Button = MainTab:CreateButton({
+	Name = "VC Unban",
+	Callback = function()
+	game:GetService("VoiceChatService"):joinVoice()
+		end,
+	})
+
 local Toggle = MainTab:CreateToggle({
    Name = "Hitbox Expander",
    CurrentValue = false,
