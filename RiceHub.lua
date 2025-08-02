@@ -82,7 +82,7 @@ local Button = MainTab:CreateButton({
 local Button = MainTab:CreateButton({
 	Name = "ESP",
 	Callback = function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/ESP.lua"))()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/better%20esp.lua"))()
 		end,
 	})
 
