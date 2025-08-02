@@ -172,7 +172,14 @@ humanoid.JumpPower = jumpPower
    end,
 })
 
-
+local Slider = MainTab:CreateSlider({
+   Name = "HitBox Slider (BLANT OVER 7.5)",
+   Range = {2.75, 200},
+   Increment = 1,
+   Suffix = "JumpPower",
+   CurrentValue = 15,
+   Flag = "Slider1",
+   Callback = function(Value)
 
 
 local HubsTab = Window:CreateTab("Fisch", 4483362458 ) -- Title, Image
