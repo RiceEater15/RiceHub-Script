@@ -209,13 +209,13 @@ end)
 		end,
 	})
 
-local HubsTab = Window:CreateTab("Fisch", 4483362458 ) -- Title, Image
-local HubsSection = HubsTab:CreateSection("Fisch")
+local HubsTab = Window:CreateTab("MVDS", 4483362458 ) -- Title, Image
+local HubsSection = HubsTab:CreateSection("MVDS HUBS")
 
 local Button = HubsTab:CreateButton({
-   Name = "SpeedX Hub",
+   Name = "some random hub",
    Callback = function()
-   loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/SpeedHubX5.23.lua"))()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/RiceEater15/RiceHub-Script/refs/heads/main/Mvds.lua"))()
    end,
 })
 
